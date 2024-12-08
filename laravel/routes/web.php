@@ -1,18 +1,12 @@
 <?php
 
-use App\Http\Controllers\UserController;
-use App\Http\Controllers\FinanceController;
+use App\Http\Controllers\TaskController;
 
 Route::get('/', function () {
-    return redirect()->route('users.index');
+    redirect()->route('tasks.index');
 });
 
-Route::prefix('usuarios')->name('users.')->group(function () {
-    Route::get('/', [UserController::class, 'index'])->name('index');
-    Route::post('/', [UserController::class, 'store'])->name('store');
-});
+Route::resource('tasks', TaskController::class);
+Route::patch('tasks/{task}/complete', [TaskController::class, 'complete'])->name('tasks.complete');
 
-Route::prefix('financeiro')->name('finances.')->group(function () {
-    Route::get('/', [FinanceController::class, 'index'])->name('index');
-    Route::post('/', [FinanceController::class, 'store'])->name('store');
-});
+Route::patch('/tasks/{task}', [TaskController::class, 'update'])->name('tasks.update');
